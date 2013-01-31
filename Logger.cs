@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace Helix.Core.Application
+namespace Burnsba.Toolbox
 {
     /// <summary>
     /// Logging helper class. Starts a thread that writes to a log file in the background. Log messages
