@@ -7,15 +7,15 @@ using System.Threading;
 
 namespace Burnsba.Toolbox
 {
-  public interface IWatchable
+    public interface IWatchable
     {
         event EventHandler Changed;
     }
-	public interface ISerializable
+    public interface ISerializable
     {
         XElement ToXElement();
     }
-	public interface ISerializeWatchable : ISerializable, IWatchable
+    public interface ISerializeWatchable : ISerializable, IWatchable
     {
     }
 	
