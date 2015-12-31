@@ -36,12 +36,14 @@ http://stackoverflow.com/questions/71323/how-to-replace-a-character-by-a-newline
 
 ====================
 
-increment number: CTRL+A
+increment number: CTRL+A  
+
 decrement number: CTRL+X
 
 ====================
 
-registers: By the way, the same way "0 holds the last yank, "1 holds the last delete or change
+registers: By the way, the same way "0 holds the last yank, "1 holds the last delete or change  
+
 The black hole register _ is the /dev/null of registers.
 
 ====================
