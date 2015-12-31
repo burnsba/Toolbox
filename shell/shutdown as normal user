@@ -1,0 +1,7 @@
+visudo -f /etc/sudoers
+add line
+Cmnd_Alias SHUT = /sbin/shutdown, /sbin/poweroff, /sbin/reboot
+after #Cmnd alias specification
+add line
+username	ALL=(ALL) NOPASSWD: SHUT
+in the #user privilege specification section
