@@ -13,9 +13,11 @@ current buffer filename: %
 ====================
 
 run command:
+
     :!command
 
 run command, output overwrite current line:
+
     :.!command
 
 ====================
