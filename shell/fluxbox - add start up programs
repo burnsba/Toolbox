@@ -1,0 +1,16 @@
+# start wicd client (in tray)
+/usr/bin/wicd-client &
+
+# start the volume mixer, but keep it in the system tray
+# apparently the xfce4-mixer stopped working?
+#/usr/bin/alltray /usr/bin/xfce4-mixer &
+/usr/bin/alltray /usr/bin/alsa-tray &
+
+# disable system beep
+xset b off 
+
+#turn capslock key into ctrl
+setxkbmap -option "ctrl:nocaps"
+
+#setup dual monitors
+~/.screenlayout/laptop_hanspree.sh
