@@ -1,0 +1,6 @@
+~/.bashrc
+# turns off keyboard beep
+xset b off
+
+# turn capslock key into ctrl
+setxkbmap -option "ctrl:nocaps"
