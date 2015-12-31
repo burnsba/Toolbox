@@ -1,0 +1,6 @@
+use fluxMenu.py
+http://fluxbox-wiki.org/index.php?title=FluxMenu
+1) copy menu from /etc/X11/fluxbox/fluxbox-menu
+2) edit
+3) fix broken close parentheses -- probably replace \) at the end of a line with \)) and broken [end] tags
+4) to add icons (to folders) -- add </usr/share/pixmaps/triangle_icon.png> to the end of the [submenu] line
