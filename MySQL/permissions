@@ -24,3 +24,8 @@ mysql> select user,host from mysql.user;
 To find the privilege(s) granted to a particular MySQL account:
 
 mysql> show grants for 'user'@'%';
+
+
+-----
+
+FLUSH PRIVILEGES;
