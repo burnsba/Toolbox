@@ -1,0 +1,7 @@
+With haproxy
+
+need to combine fullchain and private into one file
+
+cd to certificate directory, then
+
+     cat {fullchain.pem,privkey.pem} > haproxycert.pem
