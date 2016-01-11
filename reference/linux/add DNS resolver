@@ -1,0 +1,6 @@
+edit /etc/resolv.conf
+
+add lines like:
+    nameserver 8.8.8.8
+
+save. no reboot required
