@@ -1,0 +1,7 @@
+Allow Parent Paths in IIS Express Config
+
+Browse to C:\Documents and Settings\$your user name$\My Documents\IISExpress\config
+
+find <sectionGroup name="system.webServer">
+
+There are a bunch of elements with attribute "overrideModeDefault". Change from "Deny" to "Allow"
