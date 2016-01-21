@@ -1,0 +1,18 @@
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p icmp -m icmp --icmp-type 8 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p icmp -m icmp --icmp-type 0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i lo -j ACCEPT
+### iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+iptables-save > /etc/iptables.up.rules
+if [ ! -f /etc/network/if-pre-up.d/iptables ]; then
+    touch /etc/network/if-pre-up.d/iptables
+    echo "#!/bin/sh" >> /etc/network/if-pre-up.d/iptables
+    echo "/sbin/iptables-restore < /etc/iptables.up.rules" >> /etc/network/if-pre-up.d/iptables
+    chmod +x /etc/network/if-pre-up.d/iptables
+fi
