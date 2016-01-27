@@ -19,7 +19,7 @@ GRANT [type of permission] ON [database name].[table name] TO ‘[username]’@'
 
 To get a list of MySQL users:
 
-mysql> select user,host from mysql.user;
+mysql> select user,host,authentication_string from mysql.user;
 
 To find the privilege(s) granted to a particular MySQL account:
 
