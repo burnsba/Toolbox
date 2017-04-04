@@ -100,6 +100,33 @@ namespace Toolbox
         {
             return string.Join(joiner, collection);
         }
+        
+        /// <summary>
+        /// Gets a value indicating whether this object is between the start and end objects.
+        /// Comparison is inclusive.
+        /// </summary>
+        /// <param name="start">Start object to compare against. Expected to be same type as T, but not enforced.</param>
+        /// <param name="end">End object to compare against. Expected to be same type as T, but not enforced.</param>
+        /// <returns>Whether this item is between the two given items.</returns>
+        public static bool Between<T>(this T self, object start, object end) where T : IComparable
+        {
+            if (object.ReferenceEquals(null, self))
+            {
+                return false;
+            }
+            
+            if (object.ReferenceEquals(null, start))
+            {
+                return false;
+            }
+            
+            if (object.ReferenceEquals(null, end))
+            {
+                return false;
+            }
+            
+            return self.CompareTo(start) >= 0 && self.CompareTo(end) <= 0;
+        }
 
         /// <summary>
         /// Call JsonConvert to deserialize a string into an object.
