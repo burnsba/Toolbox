@@ -12,11 +12,21 @@ namespace Toolbox
         /// <summary>
         /// Shorthand to determine whether an object reference is null or not. Safe to call on null objects.
         /// </summary>
-        /// <param name="obj">Object to compare.</param>
+        /// <param name="source">Object to compare.</param>
         /// <returns>True if the object references null, false otherwise.</returns>
         public static bool ReferenceEqualsNull(this object source)
         {
             return object.ReferenceEquals(null, source);
+        }
+        
+        /// <summary>
+        /// Filters an enumerable collection and only reutrns items that are not null.
+        /// </summary>
+        /// <param name="source">Collection to filter.</param>
+        /// <returns>The filtered collection.</returns>
+        public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> source)
+        {
+            return source.Where(x => !Object.ReferenceEquals(null, x));
         }
         
         /// <summary>
