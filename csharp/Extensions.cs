@@ -30,6 +30,118 @@ namespace Toolbox
         }
         
         /// <summary>
+        /// Compares the n'th item of every single list in a collection and returns that value
+        /// if they are all the same, or null. Do not use this method to compare lists of nulls.
+        /// </summary>
+        /// <typeparam name="T">Type of item in the collection of lists.</typeparam>
+        /// <param name="source">Collection of lists to compare.</param>
+        /// <param name="defaultValue">Value to use when the n'th item is not the same or does not exist.</param>
+        /// <returns>A container list. This will have the same number of elements as the
+        /// longest source list. </returns>
+        /// <example>
+        /// <code>
+        ///     var m = ("monthber").Select(x => x).ToList();
+        ///     var n = ("November").Select(x => x).ToList();
+        ///     var d = ("December").Select(x => x).ToList();
+        ///
+        ///     var intersect = (new List<List<char>>() { m, n, d }).ListIntersect(" ");
+        ///
+        ///     Console.WriteLine(String.Join("", intersect));
+        /// </code>
+        /// Console output:
+        ///      ber
+        /// </example>
+        public static IList<object> ListIntersect<T>(this List<List<T>> source, object defaultValue = null)
+        {
+            // The general outline of this function is to compare the n'th position
+            // of every single list.
+
+            // Find the shortest list from the inputs
+            int minListLength = source.Min(x => x.Count());
+
+            // Find the longest list from the inputs
+            int maxListLength = source.Max(x => x.Count());
+            
+            // Index while traversing every single list
+            int listIndex = 0;
+
+            // Number of input lists
+            int length = source.Count();
+
+            // Result list
+            List<object> results = new List<object>();
+
+            // Look at the n'th item for every list. This only
+            // needs to occur up to the shortest common list.
+            for (; listIndex < minListLength; listIndex++)
+            {
+                // Pull out the n'th item from every list and store it here.
+                List<object> toCompare = new List<object>();
+
+                T first = default(T);
+                bool firstSet = false;
+
+                // Why is toCompare built in a for loop?
+                // Well, there is a very simple select statement to build this:
+                //
+                //     var toCompare = source.Select(x => listIndex < x.Count() ? x[listIndex] : null);
+                //
+                // which results in a compile error. This is due to 'null' having an unspecified
+                // type, and/or the compiler being unsure that 'T' can be coerced to a null value.
+                // If this wasn't a generic function the above could be fixed with an explicit cast,
+                // say, to a nullable type. See http://stackoverflow.com/a/18260915/1462295
+                for (int sourceIndex = 0; sourceIndex < length; sourceIndex++)
+                {
+                    var list = source[sourceIndex];
+
+                    // Pull out the n'th item, or null.
+                    if (listIndex < list.Count())
+                    {
+                        toCompare.Add(list[listIndex]);
+
+                        if (!firstSet)
+                        {
+                            firstSet = true;
+                            first = list[listIndex];
+                        }
+                    }
+                    else
+                    {
+                        toCompare.Add(defaultValue);
+                    }
+                }
+
+                // If there's nothing to compare, just skip to the next position.
+                if (!firstSet)
+                {
+                    results.Add(defaultValue);
+                    continue;
+                }
+
+                // Look at every single n'th item. If it's null, or there's something that's different,
+                // they are not all the same.
+                var isDifferent = toCompare.Any(x => Object.ReferenceEquals(null, x) || !x.Equals(first));
+
+                if (!isDifferent)
+                {
+                    results.Add(first);
+                }
+                else
+                {
+                    results.Add(defaultValue);
+                }
+            }
+
+            // If the list lengths are not the same, fill out the remaining values with null.
+            for (; listIndex < maxListLength; listIndex++)
+            {
+                results.Add(defaultValue);
+            }
+
+            return results;
+        }
+        
+        /// <summary>
         /// Method to cast to a different type.
         /// </summary>
         /// <typeparam name="T">Type to cast to.</typeparam>
