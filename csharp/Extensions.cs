@@ -142,6 +142,24 @@ namespace Toolbox
         }
         
         /// <summary>
+        /// Enumerates a collection performing an action on each item. The index of the item is 
+        /// also passed as a paramter to the action.
+        /// </summary>
+        /// <typeparam name="T">Type of collection.</typeparam>
+        /// <param name="source">Collection of objects to enumerate.</param>
+        /// <param name="action">Action to perform on each object. Accepts two parameters, the object and the index.</param>
+        /// <remarks>http://stackoverflow.com/a/43035/1462295</remarks>
+        public static void ForEachWithIndex<T>(this IEnumerable<T> source, Action<T, int> action)
+        {
+            int index = 0;
+            foreach (var item in source)
+            {
+                action(item, index);
+                index++;
+            }
+        }
+        
+        /// <summary>
         /// Method to cast to a different type.
         /// </summary>
         /// <typeparam name="T">Type to cast to.</typeparam>
