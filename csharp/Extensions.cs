@@ -10,6 +10,34 @@ namespace Toolbox
     public static class Extensions
     {
         /// <summary>
+        /// Returns the rightmost characters of a string.
+        /// </summary>
+        /// <param name="string">Source string.</param>
+        /// <param name="count">Number of characters to take.</param>
+        /// <returns>The rightmost characters of a string.</returns>
+        public static string Right(this string source, int count)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                return string.Empty;
+            }
+
+            int len = source.Length;
+
+            if (count < 0)
+            {
+                throw new ArgumentException("Count must be a non-negative integer.");
+            }
+
+            if (count > len)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return source.Substring(len - count, count);
+        }
+        
+        /// <summary>
         /// Shorthand to determine whether an object reference is null or not. Safe to call on null objects.
         /// </summary>
         /// <param name="source">Object to compare.</param>
