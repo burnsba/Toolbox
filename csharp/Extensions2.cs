@@ -4,10 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-// 2017-11-08 
-// Not sure how I feel about the current Extension class, starting a new file.
-// Change name from Toolbox to ToolBox
-
 namespace ToolBox
 {
     
@@ -21,6 +17,7 @@ namespace ToolBox
         /// Parse a string into a nullable type.
         /// </summary>
         /// <param name="s">String to parse.</param>
+        /// <returns>Parsed value on success, null otherwise.</returns>
         public static Nullable<T> ParseAsNullable<T>(this string s) 
             where T : struct, IConvertible
         {
@@ -80,6 +77,7 @@ namespace ToolBox
         /// <param name="s">String to parse.</param>
         /// <param name="style">Style information.</param>
         /// <param name="provider">Format provider.</param>
+        /// <returns>Parsed value on success, null otherwise.</returns>
         public static Nullable<T> ParseAsNullable<T>(this string s, NumberStyles style, IFormatProvider provider) 
             where T : struct, IConvertible
         {
@@ -135,6 +133,7 @@ namespace ToolBox
         /// <param name="s">String to parse.</param>
         /// <param name="styles">Style information.</param>
         /// <param name="provider">Format provider.</param>
+        /// <returns>Parsed value on success, null otherwise.</returns>
         public static Nullable<T> ParseAsNullable<T>(this string s, DateTimeStyles styles, IFormatProvider provider) 
             where T : struct, IConvertible
         {
@@ -160,6 +159,30 @@ namespace ToolBox
             }
             
             return ret;
+        }
+        
+        /// <summary>
+        /// Attempts to get the value associated with the specified key from the <see
+        /// cref="Dictionary{TKey,TValue}"/>. If not found, action will be executed,
+        /// and the dictionary will be updated with the returned value.
+        /// </summary>
+        /// <param name="key">The key of the value to get.</param>
+        /// <param name="value">When this method returns, <paramref name="value"/> contains the object from
+        /// the
+        /// <see cref="Dictionary{TKey,TValue}"/> with the specified key or the default value of
+        /// <typeparamref name="TValue"/>, if the operation failed.</param>
+        /// <param name="action">Action to perform if the specified key is not found.</param>
+        /// <returns>true if the key was found in the <see cref="ConcurrentDictionary{TKey,TValue}"/>;
+        /// otherwise, false.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is a null 
+        /// reference.</exception>
+        public static void TryGetValueAction<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, out TValue value, Func<TKey, TValue> action)
+        {               
+            if (!dict.TryGetValue(key, out value))
+            {
+                value = action(key);
+                dict[key] = value;
+            }
         }
 
     }
