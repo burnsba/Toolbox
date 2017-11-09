@@ -161,6 +161,45 @@ namespace ToolBox
             return ret;
         }
         
+        /* **********************************************************************
+
+        // An alternative implementation to convert to a nullable type.
+        //
+        // Advantages: 
+        // - A bit simpler.
+        // - No global static variables.
+        //
+        // Disadvantages:
+        // - This takes about 5x longer than the TryParse method.
+        // - There is an overload to accept a CultureInfo, but it also
+        //   requires a type converter context, so this is a bit harder
+        //   to setup if you wanted to do something like change the
+        //   decimal seperator in a double.
+        //
+        // I posted this on SO: https://stackoverflow.com/a/47189518/1462295
+
+        using System.ComponentModel;
+
+        public static Nullable<T> ToNullable<T>(this string s) where T : struct
+        {
+            var ret = new Nullable<T>();
+            var conv = TypeDescriptor.GetConverter(typeof(T));
+
+            if (!conv.CanConvertFrom(typeof(string)))
+            {
+                throw new NotSupportedException();
+            }
+
+            if (conv.IsValid(s))
+            {
+                ret = (T)conv.ConvertFrom(s);
+            }
+
+            return ret;
+        }
+
+        ********************************************************************** */
+        
         /// <summary>
         /// Attempts to get the value associated with the specified key from the <see
         /// cref="Dictionary{TKey,TValue}"/>. If not found, action will be executed,
@@ -169,8 +208,8 @@ namespace ToolBox
         /// <param name="key">The key of the value to get.</param>
         /// <param name="value">When this method returns, <paramref name="value"/> contains the object from
         /// the
-        /// <see cref="Dictionary{TKey,TValue}"/> with the specified key or the default value of
-        /// <typeparamref name="TValue"/>, if the operation failed.</param>
+        /// <see cref="Dictionary{TKey,TValue}"/> with the specified key or the result from
+        /// the action if the key was not found.</param>
         /// <param name="action">Action to perform if the specified key is not found.</param>
         /// <returns>true if the key was found in the <see cref="ConcurrentDictionary{TKey,TValue}"/>;
         /// otherwise, false.</returns>
