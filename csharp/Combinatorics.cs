@@ -1,11 +1,13 @@
 /// <summary>
 /// Helper function for GetPartitions.
 /// </summary>
+/// <remarks>
+/// Helper function for GetPartitions
+/// </remarks>
 private static int GetMaxState(int[] arr, int upto)
 {
-    // Is this better than
-    //     return arr.Take(upto).Max();
-    // ?
+    // This is faster than using linq:
+    // return arr.Take(upto).Max();
     
     int len = arr.Length;
     int max = 0;
@@ -20,6 +22,9 @@ private static int GetMaxState(int[] arr, int upto)
 /// <summary>
 /// Helper function for GetPartitions.
 /// </summary>
+/// <remarks>
+/// Helper function for GetPartitions
+/// </remarks>
 private static bool IncrementState(ref int[] arr)
 {
     int max;
@@ -119,4 +124,123 @@ public static void FlatPrint<T>(IEnumerable<List<T>> lists)
     Console.WriteLine(String.Join(" ", sets));
 }
 
-foreach (IEnumerable<List<int>> p in GetPartitions(new List<int>() { 1, 2, 3 })) { FlatPrint<int>(p); }
+/// <summary>
+/// Enumerate all combinations of source collection.
+/// </summary>
+public static IEnumerable<List<T>> Combinations<T>(List<T> source)
+{
+    bool canIterate = !(Object.ReferenceEquals(null, source) || source.Count < 1);
+    int len = canIterate ? source.Count : 0;
+    var state = new int[len];
+    
+    while(canIterate)
+    {
+        bool inc = false;
+        var ret = new List<T>();
+        
+        for (int i=len - 1; i>=0; i--)
+        {
+            if (state[i] == 0)
+            {
+                state[i]++;
+                inc = true;
+                break;
+            }
+            else
+            {
+                state[i] = 0;
+            }
+        }
+        
+        if (inc == false)
+        {
+            canIterate = false;
+            break;
+        }
+        
+        for (int i=0; i<len; i++)
+        {
+            if (state[i] == 1)
+            {
+                ret.Add(source[i]);
+            }
+        }
+        
+        yield return ret;
+    }
+}
+
+/// <summary>
+/// Treats a string as a collection and enumerates combinations of elements.
+/// Adjacent elements are grouped together and returned as one.
+/// </summary>
+/// <example>
+/// FlatPrint(AdjacentCombinations("123"))
+///     {3} {2} {23} {1} {1,3} {12} {123}
+/// </example>
+public static IEnumerable<List<string>> AdjacentCombinations(string source)
+{
+    bool canIterate = !(string.IsNullOrEmpty(source) || source.Length < 1);
+    int len = canIterate ? source.Length : 0;
+    var state = new int[len];
+    
+    while(canIterate)
+    {
+        bool inc = false;
+        var ret = new List<string>();
+        
+        for (int i=len - 1; i>=0; i--)
+        {
+            if (state[i] == 0)
+            {
+                state[i]++;
+                inc = true;
+                break;
+            }
+            else
+            {
+                state[i] = 0;
+            }
+        }
+        
+        if (inc == false)
+        {
+            canIterate = false;
+            break;
+        }
+        
+        int startRun = -1;
+        int runLen = 0;
+        
+        for (int i=0; i<len; i++)
+        {
+            if (state[i] == 1)
+            {
+                if (startRun < 0)
+                {
+                    startRun = i;
+                }
+                
+                runLen++;
+            }
+            else
+            {
+                if (startRun >= 0)
+                {
+                    ret.Add(source.Substring(startRun, runLen));
+                    startRun = -1;
+                    runLen = 0;
+                }
+            }
+        }
+        
+        if (startRun >= 0)
+        {
+            ret.Add(source.Substring(startRun, runLen));
+            startRun = -1;
+            runLen = 0;
+        }
+        
+        yield return ret;
+    }
+}
