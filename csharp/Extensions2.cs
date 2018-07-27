@@ -223,7 +223,35 @@ namespace ToolBox
                 dict[key] = value;
             }
         }
+        
+        /// <summary>
+        /// Splits a string and then parses each substring to int. Items that do not
+        /// parse correctly are silently dropped.
+        /// </summary>
+        /// <param name="input">Input stringn to split and parse.</param>
+        /// <param name="splitChar">Character used to split the string.</param>
+        /// <returns>A list of ints that were successfully parsed.</returns>
+        public IEnumerable<int> SplitParse(this string input, char splitChar)
+        {
+            var results = new List<int>();
 
+            if (string.IsNullOrEmpty(input))
+            {
+                return results;
+            }
+
+            var items = input.Split(splitChar);
+
+            foreach (var x in items)
+            {
+                int i;
+                if (int.TryParse(x, out i))
+                {
+                    results.Add(i);
+                }
+            }
+
+            return results.AsEnumerable();
+        }
     }
-
 }
