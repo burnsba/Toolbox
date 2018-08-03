@@ -412,5 +412,76 @@ namespace Toolbox
 
             return false;
         }
+        
+                /// <summary>
+        /// Creates an enumerable containing the object.
+        /// </summary>
+        /// <typeparam name="T">Type of object and enumerable.</typeparam>
+        /// <param name="item">Object to contain in the enumerable.</param>
+        /// <returns>Enumerable of the object.</returns>
+        public static IEnumerable<T> Enumerify<T>(T item)
+        {
+            var results = Enumerable.Empty<T>();
+
+            results = results.Concat(new T[] { item });
+
+            return results;
+        }
+
+        /// <summary>
+        /// Creates an enumerable containing the objects.
+        /// </summary>
+        /// <typeparam name="T">Type of object and enumerable.</typeparam>
+        /// <param name="items">Objects to contain in the enumerable.</param>
+        /// <returns>Enumerable of the objects.</returns>
+        public static IEnumerable<T> Enumerify<T>(params T[] items)
+        {
+            var results = Enumerable.Empty<T>();
+
+            foreach (var item in items)
+            {
+                results = results.Concat(new T[] { item });
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// Returns the items from the enumerable.
+        /// </summary>
+        /// <typeparam name="T">Type of enumerable.</typeparam>
+        /// <param name="enumerable">Container to select from.</param>
+        /// <param name="indeces">Indeces of items to select.</param>
+        /// <returns>Items at the specified indeces.</returns>
+        public static IEnumerable<T> GetElementsAt<T>(this IEnumerable<T> enumerable, params int[] indeces)
+        {
+            var results = Enumerable.Empty<T>();
+
+            foreach (var index in indeces)
+            {
+                results = results.Concat(new T[] { enumerable.ElementAt(index) });
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// Returns the items from the enumerable.
+        /// </summary>
+        /// <typeparam name="T">Type of enumerable.</typeparam>
+        /// <param name="enumerable">Container to select from.</param>
+        /// <param name="indeces">Indeces of items to select.</param>
+        /// <returns>Items at the specified indeces.</returns>
+        public static IEnumerable<T> GetElementsAt<T>(this IEnumerable<T> enumerable, IEnumerable<int> indeces)
+        {
+            var results = Enumerable.Empty<T>();
+
+            foreach (var index in indeces)
+            {
+                results = results.Concat(new T[] { enumerable.ElementAt(index) });
+            }
+
+            return results;
+        }
     }
 }
