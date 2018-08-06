@@ -170,6 +170,22 @@ namespace Toolbox
         }
         
         /// <summary>
+        /// Iterates a collection with an index.
+        /// </summary>
+        /// <typeparam name="T">Type of collection.</typeparam>
+        /// <param name="source">Collection to enumerate.</param>
+        /// <returns>Enumerable of collection where each item is paired with its index.</returns>
+        public static IEnumerable<Tuple<int, T>> EnumerateWithIndex<T>(this IEnumerable<T> source)
+        {
+            int index = 0;
+            foreach (var item in source)
+            {
+                yield return new Tuple<int, T>(index, item);
+                index++;
+            }
+        }
+        
+        /// <summary>
         /// Enumerates a collection performing an action on each item. The index of the item is 
         /// also passed as a paramter to the action.
         /// </summary>
@@ -413,7 +429,7 @@ namespace Toolbox
             return false;
         }
         
-                /// <summary>
+        /// <summary>
         /// Creates an enumerable containing the object.
         /// </summary>
         /// <typeparam name="T">Type of object and enumerable.</typeparam>
