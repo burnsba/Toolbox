@@ -499,5 +499,38 @@ namespace Toolbox
 
             return results;
         }
+        
+        /// <summary>
+        /// Splits a collection into subsets, each containing chunkSize elements except the last
+        /// which will contain upto (inclusive) chunkSize elements.
+        /// </summary>
+        /// <typeparam name="T">Type of collection.</typeparam>
+        /// <param name="source">Collection to split.</param>
+        /// <param name="chunkSize">Size of subsets.</param>
+        /// <returns>Enumerable of subsets of the collection.</returns>
+        public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int chunkSize)
+        {
+            if (chunkSize < 1)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("{0} must be a positive integer.", nameof(chunkSize)));
+            }
+
+            var chunk = new List<T>();
+
+            foreach (var item in source)
+            {
+                chunk.Add(item);
+                if (chunk.Count == chunkSize)
+                {
+                    yield return chunk;
+                    chunk = new List<T>();
+                }
+            }
+
+            if (chunk.Count > 0)
+            {
+                yield return chunk;
+            }
+        }
     }
 }
