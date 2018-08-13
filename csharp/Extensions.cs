@@ -7,6 +7,17 @@ using System.Web;
 
 namespace Toolbox
 {
+    /// <summary>
+    /// A class that can not be instantiated.
+    /// </summary>
+    public class AlwaysNull
+    {
+        private AlwaysNull()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
     public static class Extensions
     {
         /// <summary>
@@ -530,6 +541,20 @@ namespace Toolbox
             if (chunk.Count > 0)
             {
                 yield return chunk;
+            }
+        }
+        
+        /// <summary>
+        /// An action, in enumerable form.
+        /// </summary>
+        /// <param name="action">Action to be performed.</param>
+        /// <returns>An enumerable that always iterates to null.</returns>
+        public static IEnumerable<AlwaysNull> RepeatableFunc(Action action)
+        {
+            while (true)
+            {
+                action();
+                yield return null;
             }
         }
     }
