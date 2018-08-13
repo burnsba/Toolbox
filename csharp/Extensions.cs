@@ -557,5 +557,19 @@ namespace Toolbox
                 yield return null;
             }
         }
+        
+        /// <summary>
+        /// A function, in enumerable form.
+        /// </summary>
+        /// <typeparam name="TResult">Type of function result.</typeparam>
+        /// <param name="func">Function to be performed.</param>
+        /// <returns>An enumerable that always iterates to the evaluation of the function.</returns>
+        public static IEnumerable<TResult> RepeatableFunc<TResult>(Func<TResult> func)
+        {
+            while (true)
+            {
+                yield return func();
+            }
+        }
     }
 }
