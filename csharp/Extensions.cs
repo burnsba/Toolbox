@@ -582,6 +582,24 @@ namespace Toolbox
         public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<T> source, IEnumerable<T> other)
         {
             return source.Join(other, x => true, x => true, (x,y) => Enumerable.Empty<T>().Append(x).Append(y));
+            
+            /*
+            // Alternatively:
+            if (object.ReferenceEquals(null, source) || object.ReferenceEquals(null, other))
+            {
+                throw new NullReferenceException();
+            }
+            
+            foreach (var x in source)
+            {
+                foreach (var y in other)
+                {
+                    yield return Enumerable.Empty<T>().Append(x).Append(y);
+                }
+            }
+            
+            yield break;
+            */
         }
     }
 }
