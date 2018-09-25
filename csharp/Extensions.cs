@@ -571,5 +571,17 @@ namespace Toolbox
                 yield return func();
             }
         }
+        
+        /// <summary>
+        /// Performs the cartesian product of two enumerables.
+        /// </summary>
+        /// <typeparam name="T">Type of enumerables.</typeparam>
+        /// <param name="source">First enumerable to select from.</param>
+        /// <param name="other">Second enumerable to select from.</param>
+        /// <returns>An enumerable containing pairs of items from the two enumerables.</returns>
+        public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<T> source, IEnumerable<T> other)
+        {
+            return source.Join(other, x => true, x => true, (x,y) => Enumerable.Empty<T>().Append(x).Append(y));
+        }
     }
 }
