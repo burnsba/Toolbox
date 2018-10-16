@@ -601,5 +601,38 @@ namespace Toolbox
             yield break;
             */
         }
+        
+        /// <summary>
+        /// Pairs an enumerable with itself, returning all distinct pairs.
+        /// </summary>
+        /// <typeparam name="T">Type of enumerable.</typeparam>
+        /// <param name="source">Enumerable collection.</param>
+        /// <returns>Tuples of distinct pairs.</returns>
+        public static IEnumerable<Tuple<T, T>> DistinctSelfTuples<T>(this IEnumerable<T> source)
+        {
+            return source
+                .Select((element, index) => source.Skip(index + 1)
+                    .Select(element2 => new Tuple<T, T>(element, element2)))
+                .SelectMany(x => x);
+        }
+
+        /// <summary>
+        /// Pairs an enumerable with itself generating all distinct pairs, and calls a function on each pair.
+        /// </summary>
+        /// <typeparam name="T">Type of enumerable.</typeparam>
+        /// <typeparam name="TNew">Type of transformed result.</typeparam>
+        /// <param name="source">Enumerable collection.</param>
+        /// <param name="func">Function to call on each pair.</param>
+        /// <returns>Enumerable collection of the transformed pairs.</returns>
+        /// <remarks>
+        /// No need to specify TNew if this is an endomorphism.
+        /// </remarks>
+        public static IEnumerable<TNew> DistinctSelfPairsAction<T, TNew>(this IEnumerable<T> source, Func<T, T, TNew> func)
+        {
+            return source
+                .Select((element, index) => source.Skip(index + 1)
+                    .Select(element2 => func(element, element2)))
+                .SelectMany(x => x);
+        }
     }
 }
