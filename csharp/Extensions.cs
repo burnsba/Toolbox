@@ -634,5 +634,27 @@ namespace Toolbox
                     .Select(element2 => func(element, element2)))
                 .SelectMany(x => x);
         }
+        
+        /// <summary>
+        /// Pairs an list with itself, returning all distinct pairs.
+        /// </summary>
+        /// <typeparam name="T">Type of list.</typeparam>
+        /// <param name="source">Collection.</param>
+        /// <returns>Tuples of distinct pairs.</returns>
+        public static IEnumerable<Tuple<T, T>> DistinctSelfTuples<T>(this List<T> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            for (var i = 0; i < source.Count; i++)
+            {
+                for (var j = i + 1; j < source.Count; j++)
+                {
+                    yield return new Tuple<T, T>(source[i], source[j]);
+                }
+            }
+        }
     }
 }
